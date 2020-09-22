@@ -1,12 +1,13 @@
 import React, { useState} from 'react';
 import useInterval from '@use-it/interval';
+import { motion } from "framer-motion";
 import './App.css';
 
 const messages = [
   { text: 'I need an awesome React/Node Developer. Do your know one?' },
   { text: 'Hold on. Let me look around!' },
   { text: 'Hurry! I really need to get a team together?' },
-  { text: 'Iono. Just Google it?' },
+  { text: 'IDK. Just Google it?' },
   { text: 'Oh! But all developers live far away. I need one in San Diego!' },
   { text: 'Nice! I found the perfect one!' },
   { text: 'Send me the link?!' },
@@ -25,10 +26,12 @@ export default function App() {
     <div className="app">
       <div className="walkthrough">
         {messages.map((message, index) => {
-          // Step 1 = logic
+          const evenNum = index % 2 === 0;
+
+          // Step 1 = logicsd
           // Step 3 = show typing indicator
           if (messageToShow + 1 === index) {
-            return <div key={index}>I am typing</div>
+            return <TypingDots key={index} even={evenNum} />
           }
           
           // Step 2 = show message
@@ -41,9 +44,27 @@ export default function App() {
   );
 }
 
+function TypingDots({even}) {
+  return (
+    <motion.div
+      className={`typing ${even ? 'is-right' : 'is-left'}`}
+    >
+      <div className="dots">
+        <div />
+        <div />
+        <div />
+      </div>
+    </motion.div>
+  );
+}
+
 function Message({ message }) {
   return (
-    <div className="message">
+    <motion.div 
+      className="message" 
+      initial={{scale: 0.5}} 
+      animate={{scale: 1}}
+    >
       <div className="avatar">
         <span role="img" aria-label="nerd_face">🤓</span>
       </div> 
@@ -51,6 +72,6 @@ function Message({ message }) {
       <div className="avatar">
         <span role="img" aria-label="sunglasses">😎</span>
       </div> 
-    </div>
+    </motion.div>
   )
 }
